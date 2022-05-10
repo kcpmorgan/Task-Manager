@@ -1,0 +1,53 @@
+h1 {
+  color: rgb(31, 104, 146);
+  font-family: fantasy;
+  padding-top: 10px 0;
+  margin: 0;
+  background-color: blanchedalmond;
+  text-align: center;
+}
+
+.main {
+  display: flex;
+}
+#list {
+  flex: 5;
+  min-height: calc(100vh - 89px);
+}
+
+#form {
+  flex: 3;
+  padding: 20px;
+  background-color: aliceblue;
+  border: 1px solid rgb(222, 250, 222);
+  border-radius: 6px;
+  min-height: calc(100vh - 89px);
+}
+
+#form.control {
+  margin-bottom: 12px;
+}
+
+#form .control label {
+  color: cadetblue;
+}
+
+.iImportant {
+  font-size: 32px;
+  cursor: pointer;
+}
+
+#form .control .fas {
+  color: lightcoral;
+}
+#form .control .far {
+  color: darkolivegreen;
+}
+
+#form h3 {
+  text-align: center;
+  font-weight: 100;
+  color: cadetblue;
+  margin-bottom: 10px;
+  font-family: fantasy;
+}
