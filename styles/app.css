@@ -3,12 +3,14 @@ h1 {
   font-family: fantasy;
   padding-top: 10px 0;
   margin: 0;
-  background-color: blanchedalmond;
+  background-color: #efd3d5;
   text-align: center;
 }
 
 .main {
   display: flex;
+  background: url("../img/watercolor.webp") no-repeat;
+  background-size: cover;
 }
 #list {
   flex: 5;
@@ -18,7 +20,7 @@ h1 {
 #form {
   flex: 3;
   padding: 20px;
-  background-color: aliceblue;
+  background-color: #a8e3eb;
   border: 1px solid rgb(222, 250, 222);
   border-radius: 6px;
   min-height: calc(100vh - 89px);
@@ -41,13 +43,46 @@ h1 {
   color: lightcoral;
 }
 #form .control .far {
-  color: darkolivegreen;
+  color: #ca899f;
 }
 
 #form h3 {
   text-align: center;
   font-weight: 100;
-  color: cadetblue;
+  color: #065d60;
   margin-bottom: 10px;
+  border-bottom: 2px solid #edb0b4;
   font-family: fantasy;
+}
+
+/*  **************  Task item  ****************  */
+
+.task-item {
+  display: flex;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid rgb(178, 135, 197);
+  border-radius: 5px;
+}
+
+.task-item:hover {
+  border-color: #c60f7b;
+  border-left-width: 4px;
+}
+.task-item .icon {
+  flex: 0.5;
+  padding-top: 6px;
+}
+
+.task-item .info-1 {
+  flex: 3;
+}
+.task-item .info-2 {
+  flex: 1;
+}
+.task-item .info-2 label {
+  display: block;
+}
+.task-item .info-3 {
+  flex: 1;
 }
