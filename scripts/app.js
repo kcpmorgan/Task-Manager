@@ -2,6 +2,7 @@ const iconImportant = "iImportant fas fa-star";
 const iconNonImportant = "iImportant far fa-star";
 var important = false;
 var panelVisible = true;
+var total = 0;
 
 function toggleImportance() {
   if (important) {
@@ -18,8 +19,10 @@ function togglePanel() {
   if (panelVisible) {
     $("#form").hide();
     panelVisible = false;
+    $("#btnTogglePanel").text("< Show");
   } else {
     $("#form").show();
+    $("#btnTogglePanel").text("Hide >");
     panelVisible = true;
   }
 }
@@ -46,8 +49,33 @@ function saveTask() {
     frequency,
     Status
   );
-  console.log(task);
-  displayTask(task);
+
+  $.ajax({
+    type: "post",
+    url: "https://fsdiapi.azurewebsites.net/api/tasks/",
+    data: JSON.stringify(task),
+    contentType: "application/json",
+    success: function (res) {
+      console.log("Task saved", res);
+      displayTask(task);
+      clearForm();
+
+      total += 1;
+      $("#headCount").text("You have " + total + " tasks");
+    },
+    error: function (errorDetails) {
+      console.error("save failed", errorDetails);
+    },
+  });
+}
+
+function clearForm() {
+  $("input").val("");
+  $("textarea").val("");
+  $("select").val("0");
+  $("#selColor").val("#ffffff");
+  important = true;
+  toggleImportance();
 }
 
 function getStatusText(Status) {
@@ -89,7 +117,7 @@ function displayTask(task) {
     iconClass = iconImportant;
   }
 
-  let syntax = `<div class="task-item" style="border: 1px solid red ${
+  let syntax = `<div class="task-item" style="border: 1px solid ${
     task.color
   };" >
    <div class="icon">
@@ -118,6 +146,47 @@ function displayTask(task) {
 
   $("#tasks").append(syntax);
 }
+
+function fetchTasks() {
+  $.ajax({
+    type: "get",
+    url: "https://fsdiapi.azurewebsites.net/api/tasks",
+    success: function (res) {
+      let data = JSON.parse(res); // (decode) from string to object
+
+      total = 0;
+      for (let i = 0; i < data.length; i++) {
+        let task = data[i];
+        if (task.name == "Kim") {
+          //total = total + 1;
+          total += 1;
+          displayTask(task);
+        }
+      }
+
+      $("#headCount").text("You have " + total + " tasks");
+    },
+    error: function (error) {
+      console.error("Error retrieving data", err);
+    },
+  });
+}
+
+function clearAllTasks() {
+  //DELETE req
+  // /api/products/clear/<name>
+  $.ajax({
+    type: "delete",
+    url: "https://fsdiapi.azurewebsites.net/api/tasks/clear/Kim",
+    success: function () {
+      // reload the page
+      location.reload();
+    },
+    error: function (err) {
+      console.log("Error clearing tasks", err);
+    },
+  });
+}
 function init() {
   console.log("My Task Manager");
 
@@ -125,8 +194,10 @@ function init() {
   $("#iImportant").click(toggleImportance);
   $("#btnTogglePanel").click(togglePanel);
   $("#btnSave").click(saveTask);
+  $("#btnClearAll").click(clearAllTasks);
 
   // load data
+  fetchTasks();
 }
 
 window.onload = init;
